@@ -1,0 +1,282 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import WizardForm from '../../components/WizardForm';
+import FAQSection from '../../components/FAQSection.astro';
+import { VILLES } from '../../data/villes';
+import { SERVICES } from '../../data/services';
+
+export async function getStaticPaths() {
+  const COMBOS = [
+    // Marseille (5)
+    { ville: 'marseille', service: 'deratisation' },
+    { ville: 'marseille', service: 'cafards' },
+    { ville: 'marseille', service: 'punaises-de-lit' },
+    { ville: 'marseille', service: 'guepes-frelons' },
+    { ville: 'marseille', service: 'termites' },
+    // Montpellier (4)
+    { ville: 'montpellier', service: 'deratisation' },
+    { ville: 'montpellier', service: 'cafards' },
+    { ville: 'montpellier', service: 'punaises-de-lit' },
+    { ville: 'montpellier', service: 'guepes-frelons' },
+    // Nîmes (2)
+    { ville: 'nimes', service: 'deratisation' },
+    { ville: 'nimes', service: 'guepes-frelons' },
+    // Toulon (2)
+    { ville: 'toulon', service: 'deratisation' },
+    { ville: 'toulon', service: 'cafards' },
+    // Aix-en-Provence (2)
+    { ville: 'aix-en-provence', service: 'deratisation' },
+    { ville: 'aix-en-provence', service: 'cafards' },
+    // Avignon (1)
+    { ville: 'avignon', service: 'deratisation' },
+    // Arles (1)
+    { ville: 'arles', service: 'deratisation' },
+    // Salon-de-Provence (1)
+    { ville: 'salon-de-provence', service: 'cafards' },
+    // Martigues (1)
+    { ville: 'martigues', service: 'deratisation' },
+    // Aubagne (1)
+    { ville: 'aubagne', service: 'deratisation' },
+  ];
+
+  return COMBOS.map(combo => {
+    const ville = VILLES.find(v => v.slug === combo.ville)!;
+    const service = SERVICES.find(s => s.slug === combo.service)!;
+    return {
+      params: { ville: combo.ville, service: combo.service },
+      props: { ville, service }
+    };
+  });
+}
+
+const { ville, service } = Astro.props;
+const siteUrl = 'https://d4-conversion-demo.netlify.app';
+
+const schemaCombo = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": `${service.name} à ${ville.name}`,
+    "description": `${service.name} professionnel à ${ville.name}. ${service.guarantee}. Intervention en ${ville.interventionTime}.`,
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "MaxNuisibles",
+      "telephone": "+33800000000",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "847"
+      }
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": ville.name,
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": ville.lat,
+        "longitude": ville.lng
+      }
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `Quel est le délai pour une intervention ${service.name} à ${ville.name} ?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `MaxNuisibles intervient pour ${service.name} à ${ville.name} en ${ville.interventionTime} en moyenne. Appelez le 0 800 000 000 pour une réservation immédiate.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `Quel est le prix d'un traitement ${service.name} à ${ville.name} ?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Le tarif pour ${service.name} à ${ville.name} commence à ${service.price}. Devis gratuit et sans engagement au 0 800 000 000. ${service.guarantee}.`
+        }
+      }
+    ]
+  }
+];
+
+const faqCombo = [
+  {
+    q: `Quel est le délai pour ${service.name} à ${ville.name} ?`,
+    a: `MaxNuisibles intervient pour ${service.name} à ${ville.name} en ${ville.interventionTime} en moyenne. Nos techniciens sont positionnés dans le ${ville.departement} pour garantir une réponse rapide. Appelez le 0 800 000 000.`
+  },
+  {
+    q: `Quel est le tarif pour ${service.name} à ${ville.name} ?`,
+    a: `Le tarif pour ${service.name} à ${ville.name} commence à ${service.price}. Le devis est toujours gratuit et établi avant toute intervention. ${service.guarantee}.`
+  },
+  {
+    q: `Êtes-vous agréé assurance pour ${service.name} à ${ville.name} ?`,
+    a: `Oui, MaxNuisibles est agréé par les principales compagnies d'assurance. Nous fournissons un rapport d'intervention officiel pour votre dossier assurance, valable à ${ville.name} et dans tout le ${ville.departement}.`
+  },
+  {
+    q: `Quelle garantie pour ${service.name} à ${ville.name} ?`,
+    a: `${service.guarantee} sur tous nos traitements ${service.name} à ${ville.name}. Si le nuisible réapparaît dans ce délai, nous revenons gratuitement sans discussion.`
+  }
+];
+---
+
+<Layout
+  title={`${service.name} ${ville.name} | MaxNuisibles — ${ville.interventionTime} — 0 800 000 000`}
+  description={`${service.name} à ${ville.name} par MaxNuisibles. Intervention en ${ville.interventionTime}. ${service.guarantee}. Agréé assurance. Devis gratuit : 0 800 000 000`}
+  schema={schemaCombo}
+>
+  <!-- Hero combo -->
+  <section class="relative bg-[#0a0f1e] py-16 sm:py-24 overflow-hidden" aria-labelledby="combo-heading">
+    <div class="absolute inset-0" aria-hidden="true">
+      <img src={service.image} alt="" class="w-full h-full object-cover opacity-15" loading="eager" />
+      <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,15,30,0.95),rgba(0,102,255,0.6))"></div>
+    </div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="grid lg:grid-cols-5 gap-10 items-center">
+        <div class="lg:col-span-3">
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label="Fil d'Ariane">
+            <a href="/" class="hover:text-white">Accueil</a>
+            <span>›</span>
+            <a href={`/villes/${ville.slug}`} class="hover:text-white">{ville.name}</a>
+            <span>›</span>
+            <span class="text-white">{service.name}</span>
+          </nav>
+
+          <div class="inline-flex items-center gap-2 bg-[#10b981]/20 border border-[#10b981]/40 text-[#10b981] font-bold text-sm px-4 py-2 rounded-full mb-6">
+            <span class="pulse-dot w-2 h-2 rounded-full bg-[#10b981] block"></span>
+            {ville.name} · {ville.interventionTime} · {service.guarantee}
+          </div>
+
+          <h1 id="combo-heading" class="text-4xl sm:text-5xl font-black text-white leading-tight mb-4">
+            {service.icon} {service.name} {ville.name}<br />
+            <span class="gradient-text">Intervention en {ville.interventionTime}</span>
+          </h1>
+
+          <p class="text-white/80 text-lg mb-6 leading-relaxed">
+            Problème de {service.shortName} à {ville.name} ? MaxNuisibles intervient en {ville.interventionTime} avec des techniciens agréés. {service.description}
+          </p>
+
+          <div class="flex flex-wrap gap-3 mb-8">
+            {[
+              `📍 ${ville.name}`,
+              `⏱️ ${ville.interventionTime}`,
+              `✓ ${service.guarantee}`,
+              '✓ Devis gratuit',
+              '✓ Agréé assurance'
+            ].map(p => (
+              <span class="bg-white/10 text-white text-sm font-semibold px-3 py-1.5 rounded-full">{p}</span>
+            ))}
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a
+              href="tel:+33800000000"
+              class="gradient-cta glow-cta text-white font-black text-lg px-8 py-4 rounded-xl flex items-center justify-center gap-2"
+              style="background:linear-gradient(135deg,#00e5ff,#0066ff)"
+            >
+              📞 0 800 000 000
+            </a>
+            <div class="flex items-center gap-2 text-white/70 text-sm">
+              <span class="text-yellow-400">★★★★★</span>
+              <span>4.9/5 · Numéro gratuit</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-2xl p-6 shadow-2xl">
+            <h2 class="text-lg font-black text-[#0a0f1e] text-center mb-1">
+              {service.name} à {ville.name}
+            </h2>
+            <p class="text-gray-500 text-sm text-center mb-4">Réponse en 15 min · Devis gratuit</p>
+            <WizardForm client:load />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Local + service content -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <h2 class="text-2xl font-black text-[#0a0f1e] mb-6">
+        {service.name} à {ville.name} : tout ce que vous devez savoir
+      </h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            À {ville.name}, dans le {ville.departement}, {service.shortName.toLowerCase()} est un problème fréquent notamment dans : {ville.problemsLocal}.
+          </p>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            {service.description}
+          </p>
+          <div class="bg-[#10b981]/10 border border-[#10b981]/20 rounded-xl p-4">
+            <p class="text-[#10b981] font-semibold text-sm">
+              ✅ Notre solution : {service.solution}
+            </p>
+          </div>
+        </div>
+        <div class="space-y-3">
+          {[
+            { icon: '💰', label: 'Tarif', val: service.price },
+            { icon: '🛡️', label: 'Garantie', val: service.guarantee },
+            { icon: '⏱️', label: 'Délai à ' + ville.name, val: ville.interventionTime },
+            { icon: '📞', label: 'Contact', val: '0 800 000 000 (gratuit)' },
+          ].map(item => (
+            <div class="flex items-center gap-3 bg-[#f8fafc] rounded-xl p-4 border border-gray-100">
+              <span class="text-2xl">{item.icon}</span>
+              <div>
+                <p class="text-gray-500 text-xs font-medium uppercase tracking-wide">{item.label}</p>
+                <p class="font-black text-[#0a0f1e]">{item.val}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Autres services ville -->
+  <section class="py-12 bg-[#f8fafc]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <h3 class="text-xl font-black text-[#0a0f1e] mb-4 text-center">Autres services à {ville.name}</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+        {SERVICES.filter(s => s.slug !== service.slug).slice(0, 6).map(s => (
+          <a
+            href={`/services/${s.slug}`}
+            class="bg-white hover:bg-[#0066ff]/5 border border-gray-200 hover:border-[#0066ff]/30 rounded-xl p-3 text-center text-xs font-semibold text-[#0a0f1e] hover:text-[#0066ff] transition-all"
+          >
+            {s.icon} {s.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ combo -->
+  <FAQSection
+    title={`FAQ — ${service.name} à ${ville.name}`}
+    items={faqCombo}
+  />
+
+  <!-- CTA -->
+  <section class="py-16" style="background:linear-gradient(135deg,#0a0f1e,#0066ff)">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <h2 class="text-3xl font-black text-white mb-4">
+        {service.name} à {ville.name}<br />Appelez maintenant !
+      </h2>
+      <a
+        href="tel:+33800000000"
+        class="inline-flex items-center gap-3 bg-white text-[#0066ff] font-black text-xl px-10 py-5 rounded-2xl shadow-2xl hover:scale-105 transition-transform"
+      >
+        📞 0 800 000 000
+      </a>
+      <p class="text-white/60 text-sm mt-4">
+        {service.guarantee} · Intervention {ville.interventionTime} à {ville.name}
+      </p>
+    </div>
+  </section>
+</Layout>

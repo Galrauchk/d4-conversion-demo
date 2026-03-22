@@ -1,17 +1,460 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import WizardForm from '../components/WizardForm';
+import FAQSection from '../components/FAQSection.astro';
+import { SERVICES } from '../data/services';
+import { VILLES } from '../data/villes';
 
+const siteUrl = 'https://d4-conversion-demo.netlify.app';
+
+const schemaLocalBusiness = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": siteUrl,
+  "name": "MaxNuisibles",
+  "description": "Spécialiste dératisation, désinsectisation et nuisibles — Intervention en moins de 2h dans le Sud de la France",
+  "url": siteUrl,
+  "telephone": "+33800000000",
+  "email": "urgence@maxnuisibles.fr",
+  "priceRange": "€€",
+  "currenciesAccepted": "EUR",
+  "paymentAccepted": "Cash, Credit Card, Virement",
+  "openingHours": "Mo-Su 00:00-24:00",
+  "areaServed": "Sud de la France",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "847",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Services de lutte contre les nuisibles",
+    "itemListElement": SERVICES.map(s => ({
+      "@type": "Offer",
+      "itemOffered": { "@type": "Service", "name": s.name }
+    }))
+  }
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  title="Dératisation & Nuisibles Sud de la France | MaxNuisibles — Intervention 2h"
+  description="MaxNuisibles : spécialiste dératisation, cafards, punaises de lit, guêpes dans le Sud. Intervention en moins de 2h, agréé assurance. Devis gratuit : 0 800 000 000"
+  schema={schemaLocalBusiness}
+>
+  <!-- ═══════════════ HERO ABOVE THE FOLD ═══════════════ -->
+  <section
+    class="relative min-h-[calc(100vh-88px)] flex items-center bg-white overflow-hidden"
+    aria-labelledby="hero-heading"
+  >
+    <!-- Background decoration -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute top-0 right-0 w-2/3 h-full bg-[#f8fafc] rounded-bl-[80px] hidden lg:block"></div>
+      <div class="absolute top-20 right-10 w-96 h-96 rounded-full opacity-5" style="background:radial-gradient(circle, #0066ff, transparent)"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full py-10 lg:py-0">
+      <div class="grid lg:grid-cols-5 gap-10 lg:gap-16 items-center">
+
+        <!-- LEFT 60% -->
+        <div class="lg:col-span-3 relative z-10">
+          <!-- Badge disponibilité -->
+          <div class="inline-flex items-center gap-2 bg-[#10b981]/10 border border-[#10b981]/30 text-[#10b981] font-bold text-sm px-4 py-2 rounded-full mb-6">
+            <span class="pulse-dot w-2.5 h-2.5 rounded-full bg-[#10b981] block"></span>
+            Disponible MAINTENANT • Intervention en -2h
+          </div>
+
+          <!-- H1 -->
+          <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-[3.25rem] font-black text-[#0a0f1e] leading-[1.1] mb-6">
+            Un nuisible chez vous ?<br />
+            <span class="gradient-text">Nos experts interviennent<br />dans les 2 heures.</span>
+          </h1>
+
+          <!-- Preuves inline -->
+          <div class="flex flex-wrap gap-3 mb-7">
+            {['✓ Agréé assurance', '✓ Résultat garanti', '✓ Devis gratuit'].map(p => (
+              <span class="inline-flex items-center gap-1.5 bg-[#f8fafc] border border-gray-200 text-[#0a0f1e] text-sm font-semibold px-3 py-1.5 rounded-full">
+                {p}
+              </span>
+            ))}
+          </div>
+
+          <!-- CTA principal -->
+          <a
+            href="tel:+33800000000"
+            class="gradient-cta glow-cta text-white font-black text-lg sm:text-xl px-8 py-5 rounded-2xl inline-flex items-center gap-3 mb-6 transition-all"
+            style="background:linear-gradient(135deg,#00e5ff,#0066ff)"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+            </svg>
+            📞 Appel gratuit — 0 800 000 000
+          </a>
+
+          <!-- Social proof numbers -->
+          <div class="flex flex-wrap items-center gap-4">
+            <div class="flex items-center gap-2">
+              <div class="flex text-yellow-400 text-lg">★★★★★</div>
+              <span class="text-[#0a0f1e] font-bold">4.9/5</span>
+              <span class="text-gray-500 text-sm">• 847 avis</span>
+            </div>
+            <div class="h-4 w-px bg-gray-300"></div>
+            <span class="text-gray-600 text-sm">
+              <span class="font-bold text-[#0a0f1e]">4 200+</span> interventions réalisées
+            </span>
+          </div>
+
+          <!-- Image technicien (mobile) -->
+          <div class="lg:hidden mt-8 rounded-2xl overflow-hidden shadow-xl">
+            <img
+              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"
+              alt="Technicien MaxNuisibles en intervention"
+              width="800"
+              height="400"
+              class="w-full object-cover"
+              style="aspect-ratio:2/1"
+              loading="eager"
+            />
+          </div>
+        </div>
+
+        <!-- RIGHT 40% — WIZARD FORM -->
+        <div class="lg:col-span-2 relative z-10">
+          <div
+            class="bg-white rounded-2xl shadow-2xl border border-[#e2e8f0] p-6"
+            style="box-shadow: 0 25px 50px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,102,255,0.05);"
+          >
+            <!-- Form header -->
+            <div class="mb-5 text-center">
+              <h2 class="text-lg font-black text-[#0a0f1e]">Intervention rapide</h2>
+              <p class="text-sm text-gray-500 mt-1">Devis gratuit • Réponse en 15 min</p>
+            </div>
+            <WizardForm client:load />
+            <!-- Trust bar -->
+            <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-center gap-3 text-xs text-gray-400">
+              <span>🔒 Données protégées</span>
+              <span>·</span>
+              <span>✓ Sans engagement</span>
+              <span>·</span>
+              <span>📞 Rappel 15 min</span>
+            </div>
+          </div>
+
+          <!-- Floating image (desktop only) -->
+          <div class="hidden lg:block absolute -bottom-8 -left-12 w-40 h-40 rounded-2xl overflow-hidden shadow-xl border-4 border-white -z-10" aria-hidden="true">
+            <img
+              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80"
+              alt=""
+              width="160"
+              height="160"
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ BANDEAU URGENCE ═══════════════ -->
+  <section class="py-10" style="background:linear-gradient(135deg,#0a0f1e,#0066ff)" aria-label="Appel à l'action urgence">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <p class="text-white/80 font-semibold uppercase tracking-widest text-xs mb-2">Nuisible détecté ?</p>
+      <h2 class="text-white font-black text-3xl sm:text-4xl mb-4">
+        Appelez <span class="text-[#00e5ff]">MAINTENANT</span> — Intervention garantie
+      </h2>
+      <a
+        href="tel:+33800000000"
+        class="inline-flex items-center gap-3 bg-white text-[#0066ff] font-black text-2xl sm:text-3xl px-10 py-5 rounded-2xl shadow-2xl hover:scale-105 transition-transform"
+      >
+        📞 0 800 000 000
+      </a>
+      <p class="text-white/70 text-sm mt-4">Numéro gratuit · Disponible 24h/24 · 7j/7</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SERVICES ═══════════════ -->
+  <section class="py-20 bg-white" aria-labelledby="services-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-14">
+        <span class="inline-block bg-[#0066ff]/10 text-[#0066ff] font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wide mb-3">Nos Services</span>
+        <h2 id="services-heading" class="text-3xl sm:text-4xl font-black text-[#0a0f1e] mb-4">
+          Élimination totale garantie<br />pour chaque type de nuisible
+        </h2>
+        <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+          Nos techniciens certifiés maîtrisent tous les nuisibles du Sud de la France. Produits homologués, garanties écrites, résultats immédiats.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {SERVICES.slice(0, 6).map(service => (
+          <article class="service-card bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm group">
+            <div class="relative overflow-hidden" style="aspect-ratio:16/9">
+              <img
+                src={service.image}
+                alt={`Traitement ${service.name} par MaxNuisibles`}
+                width="600"
+                height="338"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+              />
+              <div class="absolute top-3 right-3 bg-white rounded-full px-3 py-1 text-xs font-bold text-[#10b981] shadow">
+                {service.guarantee}
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-2xl">{service.icon}</span>
+                <h3 class="font-black text-[#0a0f1e] text-lg">{service.name}</h3>
+              </div>
+              <p class="text-red-600 font-semibold text-sm mb-1">⚠️ {service.problem}</p>
+              <p class="text-gray-600 text-sm mb-3 line-clamp-2">{service.solution}</p>
+              <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                <span class="font-black text-[#0066ff] text-lg">{service.price}</span>
+                <a
+                  href={`/services/${service.slug}`}
+                  class="gradient-cta text-white font-bold text-xs px-4 py-2 rounded-full transition-all hover:shadow-lg"
+                  style="background:linear-gradient(135deg,#00e5ff,#0066ff)"
+                >
+                  Devis gratuit →
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="text-center mt-10">
+        <a
+          href="/services/nuisibles-entreprises"
+          class="inline-flex items-center gap-2 border-2 border-[#0066ff] text-[#0066ff] font-bold text-sm px-6 py-3 rounded-xl hover:bg-[#0066ff] hover:text-white transition-all"
+        >
+          🏢 Voir aussi : Solutions Entreprises →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ PREUVES SOCIALES ═══════════════ -->
+  <section class="py-20 bg-[#f8fafc]" aria-labelledby="reviews-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-12">
+        <span class="inline-block bg-[#0066ff]/10 text-[#0066ff] font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wide mb-3">Avis Clients</span>
+        <h2 id="reviews-heading" class="text-3xl font-black text-[#0a0f1e] mb-4">
+          4 200+ familles protégées dans le Sud
+        </h2>
+        <!-- Google Rating widget simulé -->
+        <div class="inline-flex items-center gap-3 bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 mb-10">
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          <div class="text-left">
+            <div class="flex items-center gap-1">
+              <span class="font-black text-xl text-[#0a0f1e]">4.9</span>
+              <div class="flex text-yellow-400 text-base">★★★★★</div>
+            </div>
+            <div class="text-gray-500 text-xs">Basé sur 847 avis Google</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compteurs animés -->
+      <div class="grid grid-cols-3 gap-6 mb-14">
+        {[
+          { num: '4 200+', label: 'Interventions', icon: '🎯' },
+          { num: '20', label: 'Villes couvertes', icon: '📍' },
+          { num: '98%', label: 'Clients satisfaits', icon: '⭐' },
+        ].map(stat => (
+          <div class="counter-animated text-center bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div class="text-3xl mb-2">{stat.icon}</div>
+            <div class="font-black text-3xl text-[#0066ff] mb-1">{stat.num}</div>
+            <div class="text-gray-600 text-sm font-medium">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+
+      <!-- 3 avis simulés -->
+      <div class="grid sm:grid-cols-3 gap-6">
+        {[
+          {
+            name: 'Marie-Claire B.',
+            city: 'Marseille 13ème',
+            rating: 5,
+            text: 'Intervention le soir même pour des cafards dans ma cuisine. Technicien professionnel, traitement efficace. Plus aucun cafard 3 mois après. Je recommande vivement !',
+            service: 'Cafards',
+            initiale: 'M',
+            color: '#0066ff'
+          },
+          {
+            name: 'Jean-Pierre M.',
+            city: 'Montpellier',
+            rating: 5,
+            text: 'Problème de punaises de lit dans ma chambre. MaxNuisibles est venu en moins de 2h, traitement complet et professionnel. La garantie 3 mois est rassurante. Merci !',
+            service: 'Punaises de lit',
+            initiale: 'J',
+            color: '#10b981'
+          },
+          {
+            name: 'Sylvie T.',
+            city: 'Aix-en-Provence',
+            rating: 5,
+            text: 'Nid de frelons asiatiques sous ma terrasse, très inquiétant. Appel à 8h, intervention à 10h, nid détruit. Tarif raisonnable et technicien super rassurant. 5 étoiles !',
+            service: 'Frelons',
+            initiale: 'S',
+            color: '#8b5cf6'
+          }
+        ].map(review => (
+          <article class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div class="flex items-start gap-3 mb-4">
+              <div
+                class="w-10 h-10 rounded-full flex items-center justify-center text-white font-black text-sm shrink-0"
+                style={`background:${review.color}`}
+              >
+                {review.initiale}
+              </div>
+              <div>
+                <p class="font-bold text-[#0a0f1e] text-sm">{review.name}</p>
+                <p class="text-gray-400 text-xs">{review.city} · {review.service}</p>
+                <div class="flex text-yellow-400 text-sm mt-0.5">{'★'.repeat(review.rating)}</div>
+              </div>
+            </div>
+            <p class="text-gray-600 text-sm leading-relaxed">"{review.text}"</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ ZONES — 20 VILLES ═══════════════ -->
+  <section class="py-20 bg-[#0a0f1e]" aria-labelledby="villes-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-12">
+        <span class="inline-block bg-[#00e5ff]/20 text-[#00e5ff] font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wide mb-3">Zones d'intervention</span>
+        <h2 id="villes-heading" class="text-3xl sm:text-4xl font-black text-white mb-4">
+          Intervention rapide dans<br /><span class="gradient-text">20 villes du Sud</span>
+        </h2>
+        <p class="text-gray-400 text-lg">Nos techniciens sont positionnés stratégiquement pour intervenir en moins de 2h.</p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3">
+        {VILLES.map(ville => (
+          <a
+            href={`/villes/${ville.slug}`}
+            class="ville-card border border-white/10 rounded-xl p-4 text-left group"
+          >
+            <div class="flex items-start gap-2 mb-2">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#00e5ff" class="shrink-0 mt-0.5" aria-hidden="true">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              <span class="text-white font-bold text-sm group-hover:text-[#00e5ff] transition-colors">{ville.name}</span>
+            </div>
+            <p class="text-gray-500 text-xs">
+              ⏱ <span class="text-[#10b981] font-semibold">{ville.interventionTime}</span>
+            </p>
+          </a>
+        ))}
+      </div>
+
+      <div class="text-center mt-10">
+        <p class="text-gray-400 text-sm mb-4">Votre ville n'est pas dans la liste ? Appelez-nous !</p>
+        <a
+          href="tel:+33800000000"
+          class="inline-flex items-center gap-2 gradient-cta glow-cta text-white font-bold px-8 py-4 rounded-xl"
+          style="background:linear-gradient(135deg,#00e5ff,#0066ff)"
+        >
+          📞 0 800 000 000 — Vérifier ma zone
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ PROCESS 4 ÉTAPES ═══════════════ -->
+  <section class="py-20 bg-white" aria-labelledby="process-heading">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-14">
+        <span class="inline-block bg-[#0066ff]/10 text-[#0066ff] font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wide mb-3">Comment ça marche</span>
+        <h2 id="process-heading" class="text-3xl font-black text-[#0a0f1e]">4 étapes vers la sérénité</h2>
+      </div>
+
+      <div class="grid sm:grid-cols-4 gap-8">
+        {[
+          { num: '01', icon: '📞', title: 'Vous appelez', desc: 'Le 0 800 000 000 (gratuit). En 2 minutes, on évalue votre situation et on planifie l\'intervention.' },
+          { num: '02', icon: '💬', title: 'Devis gratuit', desc: 'Devis clair et sans surprise au téléphone. Vous acceptez, on se déploie immédiatement.' },
+          { num: '03', icon: '🔧', title: 'Intervention', desc: 'Notre technicien agréé arrive en moins de 2h et traite le problème à la racine avec des produits pro.' },
+          { num: '04', icon: '✅', title: 'Garantie', desc: 'Vous recevez un rapport d\'intervention et bénéficiez de notre garantie écrite. Tranquillité totale.' },
+        ].map((step, i) => (
+          <div class="relative text-center group">
+            <!-- Connector line (not last) -->
+            {i < 3 && (
+              <div class="hidden sm:block absolute top-10 left-1/2 w-full h-0.5" style="background:linear-gradient(90deg,#0066ff,#00e5ff)" aria-hidden="true"></div>
+            )}
+            <!-- Step number -->
+            <div
+              class="relative z-10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform"
+              style="background:linear-gradient(135deg,#0a0f1e,#0066ff)"
+            >
+              <span class="text-3xl">{step.icon}</span>
+            </div>
+            <div
+              class="absolute top-0 right-1/4 w-6 h-6 rounded-full flex items-center justify-center text-xs font-black text-white z-20"
+              style="background:linear-gradient(135deg,#00e5ff,#0066ff)"
+            >
+              {step.num}
+            </div>
+            <h3 class="font-black text-[#0a0f1e] text-base mb-2">{step.title}</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FAQ ═══════════════ -->
+  <FAQSection />
+
+  <!-- ═══════════════ CTA FINAL ═══════════════ -->
+  <section class="py-20" style="background:linear-gradient(135deg,#0a0f1e,#0066ff)" aria-label="CTA final">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <h2 class="text-3xl sm:text-4xl font-black text-white mb-4">
+        Prêt à retrouver la sérénité ?
+      </h2>
+      <p class="text-white/80 text-lg mb-8">Intervention garantie en moins de 2h. Devis gratuit. Agréé assurance.</p>
+
+      <!-- Inline form -->
+      <form
+        class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto mb-8"
+        onsubmit="this.innerHTML='<p class=text-white font-bold text-center py-3>✅ Demande reçue — rappel dans 15 min !</p>'; return false;"
+      >
+        <input
+          type="tel"
+          placeholder="Votre numéro de téléphone"
+          class="flex-1 bg-white/10 border border-white/20 text-white placeholder-white/50 rounded-xl px-5 py-4 text-sm focus:outline-none focus:border-[#00e5ff]"
+          required
+        />
+        <button
+          type="submit"
+          class="gradient-cta glow-cta text-white font-bold px-8 py-4 rounded-xl whitespace-nowrap"
+          style="background:linear-gradient(135deg,#00e5ff,#0066ff)"
+        >
+          Être rappelé →
+        </button>
+      </form>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+        <a href="tel:+33800000000" class="text-white font-bold text-2xl hover:text-[#00e5ff] transition-colors">
+          📞 0 800 000 000
+        </a>
+        <span class="text-white/40 hidden sm:block">·</span>
+        <div class="flex items-center gap-2 text-white/70 text-sm">
+          <span class="pulse-dot w-2 h-2 rounded-full bg-[#10b981] block"></span>
+          Disponible maintenant · 24h/24 · Gratuit
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --color-navy: #0a0f1e;
+  --color-cyan: #00e5ff;
+  --color-blue-cta: #0066ff;
+  --color-urgence: #10b981;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #0a0f1e;
+  overflow-x: hidden;
+}
+
+/* ── GRADIENT UTILITIES ── */
+.gradient-cta {
+  background: linear-gradient(135deg, #00e5ff, #0066ff);
+}
+.gradient-navy-blue {
+  background: linear-gradient(135deg, #0a0f1e, #0066ff);
+}
+.gradient-text {
+  background: linear-gradient(135deg, #00e5ff, #0066ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── GLOW CTA ── */
+.glow-cta {
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.45), 0 4px 16px rgba(0, 102, 255, 0.35);
+  transition: box-shadow 0.25s ease, transform 0.2s ease;
+}
+.glow-cta:hover {
+  box-shadow: 0 0 36px rgba(0, 229, 255, 0.7), 0 8px 24px rgba(0, 102, 255, 0.55);
+  transform: translateY(-2px);
+}
+
+/* ── TOPBAR MARQUEE ── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-inner {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+.marquee-inner:hover { animation-play-state: paused; }
+
+/* ── PULSE DOT ── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.4); }
+}
+.pulse-dot {
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+/* ── SOCIAL PROOF NOTIFICATIONS ── */
+@keyframes slideInLeft {
+  from { transform: translateX(-110%); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+@keyframes slideOutLeft {
+  from { transform: translateX(0);     opacity: 1; }
+  to   { transform: translateX(-110%); opacity: 0; }
+}
+.sp-enter { animation: slideInLeft 0.32s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.sp-exit  { animation: slideOutLeft 0.28s ease-in forwards; }
+
+/* ── WIZARD STEP TRANSITION ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.wizard-step { animation: fadeUp 0.3s ease-out; }
+
+/* ── PROGRESS BAR ── */
+.progress-bar-inner {
+  background: linear-gradient(90deg, #00e5ff, #0066ff);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── FAQ ACCORDION ── */
+.faq-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.38s ease, padding 0.28s ease;
+}
+.faq-content.open { max-height: 480px; }
+
+/* ── COUNTER ANIMATION ── */
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.counter-animated { animation: countUp 0.6s ease-out both; }
+
+/* ── CARD HOVER ── */
+.service-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* ── VILLE CARD HOVER ── */
+.ville-card {
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.ville-card:hover {
+  background: linear-gradient(135deg, #00e5ff22, #0066ff22);
+  transform: translateY(-2px);
+}
+
+/* ── STICKY MOBILE CTA ── */
+.sticky-mobile-cta {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

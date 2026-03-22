@@ -1,0 +1,89 @@
+---
+---
+
+<!-- Social proof notification container -->
+<div
+  id="sp-container"
+  class="fixed bottom-6 left-4 z-50 max-w-xs"
+  aria-live="polite"
+  aria-atomic="true"
+  style="display:none;"
+>
+  <div id="sp-card" class="bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 flex items-center gap-3 relative">
+    <!-- Avatar initiale colorée -->
+    <div id="sp-avatar" class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0" style="background:#0066ff">
+      M
+    </div>
+    <!-- Text -->
+    <div class="flex-1 min-w-0">
+      <p id="sp-text" class="text-[#0a0f1e] font-semibold text-sm leading-tight"></p>
+      <p id="sp-time" class="text-gray-400 text-xs mt-0.5"></p>
+    </div>
+    <!-- Close button -->
+    <button
+      id="sp-close"
+      class="text-gray-300 hover:text-gray-500 transition-colors shrink-0"
+      aria-label="Fermer"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  const notifications = [
+    { name: 'Marie', city: 'Montpellier', service: 'cafards', time: 'il y a 3 min', color: '#0066ff' },
+    { name: 'Jean-Luc', city: 'Marseille', service: 'dératisation', time: 'il y a 7 min', color: '#10b981' },
+    { name: 'Sophie', city: 'Aix-en-Provence', service: 'punaises de lit', time: 'il y a 11 min', color: '#8b5cf6' },
+    { name: 'Pierre', city: 'Toulon', service: 'nid de guêpes', time: 'il y a 18 min', color: '#f59e0b' },
+    { name: 'Nathalie', city: 'Nîmes', service: 'termites', time: 'il y a 24 min', color: '#ef4444' },
+  ];
+
+  let idx = 0;
+  let dismissTimer: ReturnType<typeof setTimeout> | null = null;
+
+  const container = document.getElementById('sp-container') as HTMLDivElement;
+  const card = document.getElementById('sp-card') as HTMLDivElement;
+  const avatar = document.getElementById('sp-avatar') as HTMLDivElement;
+  const text = document.getElementById('sp-text') as HTMLParagraphElement;
+  const time = document.getElementById('sp-time') as HTMLParagraphElement;
+  const closeBtn = document.getElementById('sp-close') as HTMLButtonElement;
+
+  function show(n: typeof notifications[0]) {
+    avatar.textContent = n.name[0];
+    avatar.style.background = n.color;
+    text.textContent = `${n.name} de ${n.city} vient de réserver`;
+    time.textContent = `${n.service} • ${n.time}`;
+
+    container.style.display = 'block';
+    card.classList.remove('sp-exit');
+    card.classList.add('sp-enter');
+
+    dismissTimer = setTimeout(dismiss, 4500);
+  }
+
+  function dismiss() {
+    if (dismissTimer) clearTimeout(dismissTimer);
+    card.classList.remove('sp-enter');
+    card.classList.add('sp-exit');
+    setTimeout(() => {
+      container.style.display = 'none';
+      card.classList.remove('sp-exit');
+    }, 300);
+  }
+
+  closeBtn?.addEventListener('click', dismiss);
+
+  // Start after 3 seconds, then every 8 seconds
+  setTimeout(() => {
+    show(notifications[idx % notifications.length]);
+    idx++;
+    setInterval(() => {
+      show(notifications[idx % notifications.length]);
+      idx++;
+    }, 8000);
+  }, 3000);
+</script>

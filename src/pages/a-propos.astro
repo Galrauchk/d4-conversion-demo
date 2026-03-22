@@ -1,0 +1,111 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { VILLES } from '../data/villes';
+---
+
+<Layout
+  title="À propos de MaxNuisibles — Spécialiste nuisibles agréé depuis 15 ans"
+  description="MaxNuisibles, spécialiste dératisation et désinsectisation agréé dans le Sud de la France. 15 ans d'expérience, techniciens certifiés, agréé par les assurances."
+>
+  <!-- Hero -->
+  <section class="py-20 bg-[#0a0f1e]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <h1 class="text-4xl sm:text-5xl font-black text-white mb-4">
+        À propos de <span class="gradient-text">MaxNuisibles</span>
+      </h1>
+      <p class="text-gray-400 text-xl">
+        Depuis 15 ans, le spécialiste nuisibles de confiance du Sud de la France
+      </p>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+        <div>
+          <h2 class="text-3xl font-black text-[#0a0f1e] mb-4">Notre histoire</h2>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            MaxNuisibles est née d'un constat simple : les familles et les professionnels du Sud de la France méritaient un service de lutte contre les nuisibles à la hauteur des exigences méditerranéennes.
+          </p>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Fondée par des techniciens certifiés Certibiocide, notre entreprise a développé une expertise unique sur les nuisibles spécifiques au pourtour méditerranéen : rats des champs, cafards orientaux, frelons asiatiques, termites souterrains.
+          </p>
+          <p class="text-gray-600 leading-relaxed">
+            En 15 ans, nous avons réalisé plus de 4 200 interventions dans 20 villes, avec un taux de satisfaction de 98%. Notre engagement : intervenir en moins de 2h, avec des produits homologués et une garantie écrite.
+          </p>
+        </div>
+        <div class="rounded-2xl overflow-hidden shadow-xl">
+          <img
+            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
+            alt="Équipe MaxNuisibles en intervention"
+            width="600"
+            height="400"
+            class="w-full object-cover"
+            style="aspect-ratio:3/2"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <!-- Valeurs -->
+      <h2 class="text-3xl font-black text-[#0a0f1e] mb-8 text-center">Nos engagements</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        {[
+          { icon: '⚡', title: 'Rapidité', desc: 'Intervention garantie en moins de 2h dans toutes nos zones. Disponible 24h/24, 7j/7.' },
+          { icon: '🛡️', title: 'Garantie', desc: 'Toutes nos interventions sont garanties par écrit. Si le nuisible revient, on revient gratuitement.' },
+          { icon: '🔬', title: 'Expertise', desc: 'Techniciens certifiés Certibiocide, formés aux dernières techniques et produits homologués.' },
+          { icon: '✅', title: 'Agréé', desc: 'Agréé par les principales compagnies d\'assurance. Rapports officiels fournis pour vos dossiers.' },
+        ].map(v => (
+          <div class="text-center bg-[#f8fafc] rounded-2xl p-6 border border-gray-100">
+            <div class="text-4xl mb-3">{v.icon}</div>
+            <h3 class="font-black text-[#0a0f1e] text-lg mb-2">{v.title}</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">{v.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <!-- Stats -->
+      <div class="rounded-2xl p-10 text-white text-center" style="background:linear-gradient(135deg,#0a0f1e,#0066ff)">
+        <h2 class="text-2xl font-black mb-8">MaxNuisibles en chiffres</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+          {[
+            { num: '15 ans', label: "d'expérience" },
+            { num: '4 200+', label: 'interventions' },
+            { num: '20', label: 'villes couvertes' },
+            { num: '98%', label: 'clients satisfaits' },
+          ].map(s => (
+            <div>
+              <div class="font-black text-3xl text-[#00e5ff] mb-1">{s.num}</div>
+              <div class="text-white/70 text-sm">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zones -->
+  <section class="py-16 bg-[#f8fafc]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <h2 class="text-2xl font-black text-[#0a0f1e] mb-6">Nos zones d'intervention</h2>
+      <div class="flex flex-wrap justify-center gap-2">
+        {VILLES.map(v => (
+          <a href={`/villes/${v.slug}`} class="bg-white border border-gray-200 hover:border-[#0066ff] rounded-full px-4 py-2 text-sm font-semibold text-[#0a0f1e] hover:text-[#0066ff] transition-all">
+            {v.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16" style="background:linear-gradient(135deg,#0a0f1e,#0066ff)">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <h2 class="text-3xl font-black text-white mb-4">Faites confiance aux experts</h2>
+      <a href="tel:+33800000000" class="inline-flex items-center gap-2 bg-white text-[#0066ff] font-black text-xl px-10 py-5 rounded-2xl shadow-2xl hover:scale-105 transition-transform">
+        📞 0 800 000 000
+      </a>
+    </div>
+  </section>
+</Layout>

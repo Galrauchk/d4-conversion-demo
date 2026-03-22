@@ -1,0 +1,82 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Contact MaxNuisibles — 0 800 000 000 (Gratuit)"
+  description="Contactez MaxNuisibles pour une urgence nuisibles. Téléphone gratuit 0 800 000 000, email urgence@maxnuisibles.fr. Disponible 24h/24, 7j/7."
+>
+  <section class="py-16 bg-[#0a0f1e]">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <h1 class="text-4xl font-black text-white mb-4">Contactez MaxNuisibles</h1>
+      <p class="text-gray-400 text-lg">Urgence nuisibles ? Appelez maintenant — disponible 24h/24, 7j/7.</p>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="grid md:grid-cols-2 gap-8 mb-12">
+        {[
+          {
+            icon: '📞',
+            title: 'Urgence — Numéro gratuit',
+            value: '0 800 000 000',
+            href: 'tel:+33800000000',
+            sub: 'Disponible 24h/24 · 7j/7 · Numéro vert gratuit',
+            color: '#0066ff',
+            highlight: true
+          },
+          {
+            icon: '✉️',
+            title: 'Email',
+            value: 'urgence@maxnuisibles.fr',
+            href: 'mailto:urgence@maxnuisibles.fr',
+            sub: 'Réponse sous 1h en heures ouvrées',
+            color: '#10b981',
+            highlight: false
+          }
+        ].map(c => (
+          <a
+            href={c.href}
+            class="block rounded-2xl p-8 border-2 transition-all hover:scale-105"
+            style={c.highlight ? `background:linear-gradient(135deg,#0a0f1e,#0066ff); border-color:#0066ff` : 'border-color:#e5e7eb; background:#f8fafc'}
+          >
+            <div class="text-4xl mb-4">{c.icon}</div>
+            <p class={`text-sm font-semibold uppercase tracking-wide mb-2 ${c.highlight ? 'text-white/60' : 'text-gray-500'}`}>{c.title}</p>
+            <p class={`font-black text-2xl mb-2 ${c.highlight ? 'text-white' : 'text-[#0a0f1e]'}`}>{c.value}</p>
+            <p class={`text-sm ${c.highlight ? 'text-white/70' : 'text-gray-500'}`}>{c.sub}</p>
+          </a>
+        ))}
+      </div>
+
+      <!-- Form contact simple -->
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-2xl font-black text-[#0a0f1e] mb-6 text-center">Envoyer un message</h2>
+        <form
+          class="space-y-4"
+          onsubmit="this.innerHTML='<div class=text-center py-8><div class=text-4xl>✅</div><p class=font-bold text-[#10b981] text-xl mt-3>Message envoyé !</p><p class=text-gray-600 mt-2>Nous vous répondrons dans l\\'heure.</p></div>'; return false;"
+        >
+          <div class="grid sm:grid-cols-2 gap-4">
+            <input type="text" placeholder="Prénom et nom" required class="border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-[#0066ff] focus:outline-none w-full" />
+            <input type="tel" placeholder="Téléphone" required class="border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-[#0066ff] focus:outline-none w-full" />
+          </div>
+          <input type="email" placeholder="Email" class="border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-[#0066ff] focus:outline-none w-full" />
+          <input type="text" placeholder="Ville / Code postal" required class="border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-[#0066ff] focus:outline-none w-full" />
+          <textarea
+            placeholder="Décrivez votre problème (type de nuisible, depuis quand, superficie...)"
+            rows={4}
+            class="border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-[#0066ff] focus:outline-none w-full resize-none"
+          ></textarea>
+          <button
+            type="submit"
+            class="w-full gradient-cta glow-cta text-white font-black py-4 rounded-xl text-base"
+            style="background:linear-gradient(135deg,#00e5ff,#0066ff)"
+          >
+            Envoyer ma demande →
+          </button>
+          <p class="text-center text-gray-400 text-xs">🔒 Données protégées · Réponse sous 1h</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</Layout>

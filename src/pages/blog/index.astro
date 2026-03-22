@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { BLOG_POSTS } from '../../data/blog';
+---
+
+<Layout
+  title="Blog MaxNuisibles — Conseils experts dératisation & nuisibles"
+  description="Conseils d'experts pour identifier, prévenir et traiter les nuisibles. Guides pratiques rats, cafards, punaises de lit, guêpes, termites par MaxNuisibles."
+>
+  <section class="py-16 bg-[#0a0f1e]" aria-labelledby="blog-heading">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <span class="inline-block bg-[#00e5ff]/20 text-[#00e5ff] font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-wide mb-4">Blog</span>
+      <h1 id="blog-heading" class="text-4xl font-black text-white mb-4">
+        Conseils experts nuisibles
+      </h1>
+      <p class="text-gray-400 text-lg">Guides pratiques, conseils de prévention et informations sur tous les nuisibles du Sud de la France.</p>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="grid sm:grid-cols-2 gap-8">
+        {BLOG_POSTS.map(post => (
+          <article class="service-card bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm group">
+            <div class="p-6">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="bg-[#0066ff]/10 text-[#0066ff] font-bold text-xs px-3 py-1 rounded-full">
+                  {post.category}
+                </span>
+                <span class="text-gray-400 text-xs">{post.readTime} de lecture</span>
+              </div>
+              <h2 class="font-black text-[#0a0f1e] text-lg mb-2 group-hover:text-[#0066ff] transition-colors leading-tight">
+                <a href={`/blog/${post.slug}`}>{post.title}</a>
+              </h2>
+              <p class="text-gray-600 text-sm leading-relaxed mb-4">{post.description}</p>
+              <div class="flex items-center justify-between">
+                <time class="text-gray-400 text-xs" datetime={post.date}>
+                  {new Date(post.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </time>
+                <a
+                  href={`/blog/${post.slug}`}
+                  class="text-[#0066ff] font-bold text-sm hover:underline"
+                >
+                  Lire →
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- CTA blog -->
+      <div class="mt-16 rounded-2xl p-8 text-center" style="background:linear-gradient(135deg,#0a0f1e,#0066ff)">
+        <h2 class="text-white font-black text-2xl mb-3">Un nuisible chez vous ?</h2>
+        <p class="text-white/70 mb-6">Ne cherchez plus — nos experts interviennent dans les 2 heures.</p>
+        <a
+          href="tel:+33800000000"
+          class="inline-flex items-center gap-2 bg-white text-[#0066ff] font-black text-lg px-8 py-4 rounded-xl hover:scale-105 transition-transform"
+        >
+          📞 0 800 000 000 — Appel gratuit
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

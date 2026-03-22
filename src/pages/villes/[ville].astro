@@ -1,0 +1,211 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import WizardForm from '../../components/WizardForm';
+import FAQSection from '../../components/FAQSection.astro';
+import { VILLES } from '../../data/villes';
+import { SERVICES } from '../../data/services';
+
+export async function getStaticPaths() {
+  return VILLES.map(ville => ({
+    params: { ville: ville.slug },
+    props: { ville }
+  }));
+}
+
+const { ville } = Astro.props;
+const siteUrl = 'https://d4-conversion-demo.netlify.app';
+
+const schemaLocalBusiness = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": `MaxNuisibles ${ville.name}`,
+  "description": `Spécialiste dératisation et nuisibles à ${ville.name}. Intervention en ${ville.interventionTime}. Agréé assurance.`,
+  "url": `${siteUrl}/villes/${ville.slug}`,
+  "telephone": "+33800000000",
+  "areaServed": ville.name,
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": ville.lat,
+    "longitude": ville.lng
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": ville.name,
+    "addressRegion": ville.departement,
+    "postalCode": ville.codePostal,
+    "addressCountry": "FR"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "847",
+    "bestRating": "5"
+  }
+};
+
+const faqLocale = [
+  {
+    q: `Quel est le délai d'intervention à ${ville.name} ?`,
+    a: `MaxNuisibles intervient à ${ville.name} en ${ville.interventionTime} en moyenne. Nous avons des techniciens positionnés dans le secteur de ${ville.departement} pour garantir une réponse ultra-rapide.`
+  },
+  {
+    q: `Quels nuisibles traitez-vous à ${ville.name} ?`,
+    a: `À ${ville.name}, nous traitons tous les nuisibles courants : rats, souris, cafards, blattes, punaises de lit, guêpes, frelons asiatiques, termites et procédons à la désinfection. Nos techniciens connaissent bien les spécificités de la zone : ${ville.problemsLocal}.`
+  },
+  {
+    q: `Intervenez-vous dans tout ${ville.name} et ses alentours ?`,
+    a: `Oui, nous couvrons l'intégralité de ${ville.name} et ses communes avoisinantes dans le ${ville.departement}. Appelez le 0 800 000 000 pour confirmer votre zone de couverture.`
+  },
+  {
+    q: `Quels sont vos tarifs à ${ville.name} ?`,
+    a: `Nos tarifs à ${ville.name} démarrent à 79€ pour les guêpes, 89€ pour les cafards, 149€ pour la dératisation et 199€ pour les punaises de lit. Le devis est toujours gratuit et établi avant toute intervention. Appelez le 0 800 000 000.`
+  }
+];
+---
+
+<Layout
+  title={`Dératisation ${ville.name} | MaxNuisibles — Intervention ${ville.interventionTime}`}
+  description={`MaxNuisibles ${ville.name} : dératisation, cafards, punaises de lit, guêpes. Intervention en ${ville.interventionTime}, agréé assurance. Devis gratuit 0 800 000 000.`}
+  schema={schemaLocalBusiness}
+>
+  <!-- Hero ville -->
+  <section class="relative bg-[#0a0f1e] py-16 sm:py-24 overflow-hidden" aria-labelledby="ville-heading">
+    <div class="absolute inset-0 opacity-10" aria-hidden="true">
+      <div class="w-full h-full" style="background:radial-gradient(ellipse at top right,#0066ff,transparent)"></div>
+    </div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="grid lg:grid-cols-5 gap-10 items-center">
+        <div class="lg:col-span-3">
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label="Fil d'Ariane">
+            <a href="/" class="hover:text-white transition-colors">Accueil</a>
+            <span>›</span>
+            <span class="text-white">Dératisation {ville.name}</span>
+          </nav>
+
+          <div class="inline-flex items-center gap-2 bg-[#10b981]/20 border border-[#10b981]/40 text-[#10b981] font-bold text-sm px-4 py-2 rounded-full mb-6">
+            <span class="pulse-dot w-2 h-2 rounded-full bg-[#10b981] block"></span>
+            📍 {ville.name} · Intervention en {ville.interventionTime}
+          </div>
+
+          <h1 id="ville-heading" class="text-4xl sm:text-5xl font-black text-white leading-tight mb-4">
+            Dératisation {ville.name}<br />
+            <span class="gradient-text">MaxNuisibles — Intervention {ville.interventionTime}</span>
+          </h1>
+
+          <p class="text-white/80 text-lg mb-6 leading-relaxed">
+            {ville.description}
+          </p>
+
+          <div class="flex flex-wrap gap-3 mb-8">
+            {[
+              `📍 ${ville.name}, ${ville.departement}`,
+              '✓ Agréé assurance',
+              '✓ Devis gratuit',
+              `⏱️ Intervention ${ville.interventionTime}`
+            ].map(p => (
+              <span class="bg-white/10 text-white text-sm font-semibold px-3 py-1.5 rounded-full">{p}</span>
+            ))}
+          </div>
+
+          <a
+            href="tel:+33800000000"
+            class="gradient-cta glow-cta text-white font-black text-xl px-8 py-5 rounded-xl inline-flex items-center gap-3"
+            style="background:linear-gradient(135deg,#00e5ff,#0066ff)"
+          >
+            📞 0 800 000 000 — Appel gratuit
+          </a>
+          <p class="text-white/60 text-sm mt-3">4.9/5 · 847 avis · Disponible maintenant</p>
+        </div>
+
+        <!-- Wizard form -->
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-2xl p-6 shadow-2xl">
+            <h2 class="text-lg font-black text-[#0a0f1e] text-center mb-1">Intervention à {ville.name}</h2>
+            <p class="text-gray-500 text-sm text-center mb-4">Réponse en 15 min · Devis gratuit</p>
+            <WizardForm client:load />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Description locale -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="grid md:grid-cols-2 gap-10 items-start">
+        <div>
+          <h2 class="text-2xl font-black text-[#0a0f1e] mb-4">
+            Nuisibles à {ville.name} : les zones à risque
+          </h2>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            {ville.description}
+          </p>
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <p class="text-amber-800 font-semibold text-sm">
+              ⚠️ Zones particulièrement exposées à {ville.name} :<br />
+              <span class="font-normal">{ville.problemsLocal}</span>
+            </p>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-xl font-black text-[#0a0f1e] mb-4">Nos services à {ville.name}</h3>
+          <div class="space-y-2">
+            {SERVICES.slice(0, 6).map(s => (
+              <a
+                href={`/${ville.slug}/${s.slug}`}
+                class="flex items-center justify-between p-3 bg-[#f8fafc] hover:bg-[#0066ff]/5 rounded-xl border border-gray-100 hover:border-[#0066ff]/20 transition-all group"
+              >
+                <span class="flex items-center gap-2 font-semibold text-sm text-[#0a0f1e] group-hover:text-[#0066ff]">
+                  {s.icon} {s.name} {ville.name}
+                </span>
+                <span class="text-[#0066ff] text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats ville -->
+  <section class="py-12 bg-[#f8fafc]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-3 gap-4">
+        {[
+          { num: ville.interventionTime, label: 'Délai intervention', icon: '⏱️' },
+          { num: '4.9/5', label: 'Note clients', icon: '⭐' },
+          { num: '100%', label: 'Agréé assurance', icon: '🛡️' },
+        ].map(stat => (
+          <div class="counter-animated bg-white rounded-2xl p-5 text-center shadow-sm border border-gray-100">
+            <div class="text-2xl mb-1">{stat.icon}</div>
+            <div class="font-black text-2xl text-[#0066ff]">{stat.num}</div>
+            <div class="text-gray-500 text-xs mt-1">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ locale -->
+  <FAQSection
+    title={`FAQ — Nuisibles à ${ville.name}`}
+    items={faqLocale}
+  />
+
+  <!-- CTA final -->
+  <section class="py-16" style="background:linear-gradient(135deg,#0a0f1e,#0066ff)">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <h2 class="text-3xl font-black text-white mb-4">
+        Nuisible à {ville.name} ?<br />Appelez maintenant !
+      </h2>
+      <a
+        href="tel:+33800000000"
+        class="inline-flex items-center gap-3 bg-white text-[#0066ff] font-black text-xl px-10 py-5 rounded-2xl shadow-2xl hover:scale-105 transition-transform"
+      >
+        📞 0 800 000 000
+      </a>
+      <p class="text-white/60 text-sm mt-4">Intervention en {ville.interventionTime} · {ville.name} et environs</p>
+    </div>
+  </section>
+</Layout>

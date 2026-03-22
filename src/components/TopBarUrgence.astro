@@ -1,0 +1,25 @@
+---
+const message = "⚡ Spécialiste agréé assurance — Intervention MOINS DE 2H — Devis gratuit — Disponible MAINTENANT → 0 800 000 000 &nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp; ⚡ Spécialiste agréé assurance — Intervention MOINS DE 2H — Devis gratuit — Disponible MAINTENANT → 0 800 000 000";
+---
+
+<div
+  class="w-full overflow-hidden"
+  style="background: linear-gradient(90deg, #00e5ff, #0066ff); height: 44px;"
+  role="banner"
+  aria-label="Informations urgence"
+>
+  <!-- Desktop: marquee -->
+  <div class="hidden md:flex items-center h-full">
+    <div class="marquee-inner whitespace-nowrap">
+      <span class="text-[#0a0f1e] font-bold text-sm px-8" set:html={message} />
+      <span class="text-[#0a0f1e] font-bold text-sm px-8" set:html={message} />
+    </div>
+  </div>
+
+  <!-- Mobile: static centered -->
+  <div class="md:hidden flex items-center justify-center h-full px-4 text-center">
+    <span class="text-[#0a0f1e] font-bold text-xs leading-tight">
+      ⚡ Intervention -2h — Devis gratuit — <strong>0 800 000 000</strong>
+    </span>
+  </div>
+</div>

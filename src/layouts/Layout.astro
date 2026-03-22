@@ -1,0 +1,93 @@
+---
+import '../styles/global.css';
+import TopBarUrgence from '../components/TopBarUrgence.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyMobileCTA from '../components/StickyMobileCTA.astro';
+import SocialProofNotification from '../components/SocialProofNotification.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  schema?: object | object[];
+  canonicalUrl?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  schema,
+  canonicalUrl,
+  ogImage = 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80'
+} = Astro.props;
+
+const siteUrl = 'https://d4-conversion-demo.netlify.app';
+const canonical = canonicalUrl || siteUrl + Astro.url.pathname;
+
+const defaultSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "MaxNuisibles",
+  "description": "Spécialiste dératisation, désinsectisation et nuisibles — Intervention en moins de 2h",
+  "url": siteUrl,
+  "telephone": "+33800000000",
+  "email": "urgence@maxnuisibles.fr",
+  "priceRange": "€€",
+  "areaServed": "Sud de la France",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "847",
+    "bestRating": "5"
+  }
+};
+
+const schemas = Array.isArray(schema) ? schema : (schema ? [schema] : [defaultSchema]);
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- OG -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MaxNuisibles" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Schema.org JSON-LD -->
+    {schemas.map(s => (
+      <script type="application/ld+json" set:html={JSON.stringify(s)} />
+    ))}
+  </head>
+  <body class="bg-white text-[#0a0f1e] font-sans">
+    <TopBarUrgence />
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <StickyMobileCTA />
+    <SocialProofNotification />
+  </body>
+</html>
