@@ -7,6 +7,13 @@ import { VILLES } from '../data/villes';
 
 const siteUrl = 'https://d4-conversion-demo.netlify.app';
 
+const schemaWebSite = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "MaxNuisibles",
+  "url": siteUrl
+};
+
 const schemaLocalBusiness = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -40,9 +47,9 @@ const schemaLocalBusiness = {
 ---
 
 <Layout
-  title="Dératisation & Nuisibles Sud de la France | MaxNuisibles — Intervention 2h"
+  title="Dératisation & Nuisibles Sud de la France | MaxNuisibles"
   description="MaxNuisibles : spécialiste dératisation, cafards, punaises de lit, guêpes dans le Sud. Intervention en moins de 2h, agréé assurance. Devis gratuit : 0 800 000 000"
-  schema={schemaLocalBusiness}
+  schema={[schemaLocalBusiness, schemaWebSite]}
 >
   <!-- ═══════════════ HERO ABOVE THE FOLD ═══════════════ -->
   <section
