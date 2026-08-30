@@ -1,4 +1,6 @@
 ---
+import LegalLinks from './LegalLinks.astro';
+
 const currentYear = new Date().getFullYear();
 ---
 
@@ -94,7 +96,7 @@ const currentYear = new Date().getFullYear();
           </li>
           <li class="flex items-start gap-2">
             <span>✉️</span>
-            <a href="mailto:urgence@maxnuisibles.fr" class="hover:text-white transition-colors">urgence@maxnuisibles.fr</a>
+            <a href="/contact" class="hover:text-white transition-colors">urgence@maxnuisibles.fr</a>
           </li>
           <li class="flex items-start gap-2">
             <span>📍</span>
@@ -128,6 +130,7 @@ const currentYear = new Date().getFullYear();
         <a href="/contact" class="text-gray-500 hover:text-gray-300 text-xs transition-colors">Contact</a>
         <a href="/sitemap-index.xml" class="text-gray-500 hover:text-gray-300 text-xs transition-colors">Sitemap</a>
       </div>
+      <LegalLinks includeMentions={false} />
     </div>
   </div>
 </footer>

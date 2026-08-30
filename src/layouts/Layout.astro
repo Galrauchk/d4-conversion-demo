@@ -5,6 +5,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StickyMobileCTA from '../components/StickyMobileCTA.astro';
 import SocialProofNotification from '../components/SocialProofNotification.astro';
+import ConsentTracking from '../components/ConsentTracking.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 
 interface Props {
   title: string;
@@ -45,6 +47,7 @@ const schemas = Array.isArray(schema) ? schema : (schema ? [schema] : [defaultSc
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <ConsentTracking />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonical} />
     <title>{title}</title>
@@ -84,5 +87,6 @@ const schemas = Array.isArray(schema) ? schema : (schema ? [schema] : [defaultSc
     <Footer />
     <StickyMobileCTA />
     <SocialProofNotification />
+    <ConsentBanner />
   </body>
 </html>
