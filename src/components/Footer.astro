@@ -133,4 +133,13 @@ const currentYear = new Date().getFullYear();
       <LegalLinks includeMentions={false} />
     </div>
   </div>
+  <p data-webtrafic-credit style="margin: 1rem; text-align: center; font-size: 0.75rem; line-height: 1.6;">
+    Site réalisé par <a href="https://webtrafic.fr/" style="color: inherit; text-decoration: underline; text-underline-offset: 0.2em;">WebTrafic</a>
+  </p>
 </footer>
+
+<style>
+  @media (max-width: 767px) {
+    [data-webtrafic-credit] { padding-bottom: calc(5rem + env(safe-area-inset-bottom)); }
+  }
+</style>
